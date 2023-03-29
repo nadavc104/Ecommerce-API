@@ -1,6 +1,8 @@
 import express from 'express'
+import { logger, logEvents } from './middlewares/logger.js'
 
 const app = express()
+app.use(logger)
 
 app.get('/', (req, res) => {
     res.send('Api is running')
