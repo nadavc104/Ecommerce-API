@@ -7,6 +7,8 @@ import { logger, logEvents } from './middlewares/logger.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 import { corsOptions } from './config/corsOptions.js'
 import connectDB from './config/connectDB.js'
+import userRouter from './routes/userRoutes.js'
+
 
 dotenv.config()
 const app = express()
@@ -14,7 +16,6 @@ const app = express()
 connectDB()
 
 app.use(express.json())
-
 app.use(cors(corsOptions))
 app.use(cookieParser())
 app.use(logger)
@@ -22,6 +23,9 @@ app.use(logger)
 app.get('/', (req, res) => {
     res.send('Api is running')
 })
+
+app.use('/users', userRouter)
+
 
 app.use(errorHandler)
 
