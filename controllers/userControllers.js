@@ -70,16 +70,18 @@ const getUser = asyncHandler(async (req, res, next) => {
 const updateUser = asyncHandler(async (req, res) => {
 
     const { id } = req.params
-    const { roles, active } = req.body
+    const { roles, active, firstName, lastName } = req.body
     
     const user = await User.findById(id).exec()
     console.log(user)
     if(!user)
         return res.status(400).json({ message: 'User not found' })
    
-    if(JSON.stringify(user.roles) === JSON.stringify(roles) && user.active === active)
+    if(JSON.stringify(user.roles) === JSON.stringify(roles) && user.active === active && user.firstName === firstName && user.lastName === lastName)
         return res.status(400).json({ message: 'Change the fields to update the user' })
 
+    user.firstName = firstName
+    user.lastName = lastName
     user.roles = roles
     user.active = active
     const updatedUser = await user.save()
@@ -92,8 +94,9 @@ const updateUser = asyncHandler(async (req, res) => {
 // @access Private
 
 const deleteUser = asyncHandler(async (req, res) => {
-
+    console.log('delete')
     const { id } = req.params
+    console.log(req.params.id)
     
     const user = await User.findById(id).exec()
 
