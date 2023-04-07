@@ -5,14 +5,14 @@ import { validateBodyRegister, validateBodyUpdate, validateParamsUpdate, validat
 
 const router = express.Router()
 
+
 router.route('/')
-    .get(getUsers)
+    .get( getUsers)
     .post(validation(validateBodyRegister, null), createUser)
 
 router.route('/:id')
-    .get(getUser)
-    .patch(validation(validateBodyUpdate, validateParamsUpdate), updateUser)
+    .get( getUser)
+    .patch( validation(validateBodyUpdate, validateParamsUpdate), updateUser)
     .delete(validation(null, validateParamsDelete), deleteUser)
-   
-
+    
 export default router
