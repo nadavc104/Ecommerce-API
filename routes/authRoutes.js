@@ -1,6 +1,5 @@
 import express from 'express'
 import { loginLimiter } from '../middlewares/loginLimiter.js'
-import { validation } from '../middlewares/validation.js'
 import { login, refresh, logout } from '../controllers/authControllers.js'
 
 const router = express.Router()
