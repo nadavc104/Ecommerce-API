@@ -15,9 +15,11 @@ const app = express()
 
 connectDB()
 
+
 app.use(express.json())
 app.use(cors(corsOptions))
 app.use(cookieParser())
+app.use('/uploads', express.static('uploads/images'))
 app.use(logger)
 
 app.get('/', (req, res) => {

@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 
 const verifyJWT = (req, res, next) => {
+    console.log('verifyJWT middleware')
     const authHeader = req.headers.authorization || req.headers.Authorization
 
     if(!authHeader?.startsWith('Bearer'))
@@ -23,8 +24,8 @@ const verifyJWT = (req, res, next) => {
 }
 
 const admin = (req, res, next) => {
-    console.log(req.roles)
-    console.log(req.user)
+    console.log('admin middleware')
+
     if(req.user && req.roles?.includes('admin')) {
         next()
     } else {
