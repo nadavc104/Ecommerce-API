@@ -73,7 +73,6 @@ const updateUser = asyncHandler(async (req, res) => {
     const { roles, active, firstName, lastName } = req.body
     
     const user = await User.findById(id).exec()
-    console.log(user)
     if(!user)
         return res.status(400).json({ message: 'User not found' })
    
@@ -82,8 +81,8 @@ const updateUser = asyncHandler(async (req, res) => {
 
     user.firstName = firstName
     user.lastName = lastName
-    user.roles = roles
-    user.active = active
+    user.roles = roles ? roles : user.roles
+    user.active = active ? active : user.active
     const updatedUser = await user.save()
 
     res.status(200).json({ message: `Username: ${updatedUser.username} updated successfully` })
@@ -94,9 +93,7 @@ const updateUser = asyncHandler(async (req, res) => {
 // @access Private
 
 const deleteUser = asyncHandler(async (req, res) => {
-    console.log('delete')
     const { id } = req.params
-    console.log(req.params.id)
     
     const user = await User.findById(id).exec()
 

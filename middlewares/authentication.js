@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken'
+import User from '../models/User.js'
+import asyncHandler from 'express-async-handler';
 
-const verifyJWT = (req, res, next) => {
+const verifyJWT = asyncHandler(async (req, res, next) => {
     console.log('verifyJWT middleware')
     const authHeader = req.headers.authorization || req.headers.Authorization
 
@@ -8,20 +10,22 @@ const verifyJWT = (req, res, next) => {
         return res.status(401).json({ message: 'Unauthorized' })
 
     const token = authHeader.split(' ')[1]
-
+    console.log(token)
     jwt.verify(
         token,
         process.env.ACCESS_TOKEN_SECRET,
         (err, decoded) => {
             if(err)
                 return res.status(403).json({ message: 'Forbidden'})
+                console.log(decoded)
 
             req.user = decoded.userInfo.username
             req.roles = decoded.userInfo.roles
+            
             next()
         }
     )
-}
+})
 
 const admin = (req, res, next) => {
     console.log('admin middleware')

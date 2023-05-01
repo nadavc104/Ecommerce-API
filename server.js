@@ -9,6 +9,8 @@ import { corsOptions } from './config/corsOptions.js'
 import connectDB from './config/connectDB.js'
 import userRoutes from './routes/userRoutes.js'
 import authRoutes from './routes/authRoutes.js'
+import categoryRoutes from './routes/categoryRoutes.js'
+
 
 dotenv.config()
 const app = express()
@@ -19,7 +21,7 @@ connectDB()
 app.use(express.json())
 app.use(cors(corsOptions))
 app.use(cookieParser())
-app.use('/uploads', express.static('uploads/images'))
+app.use('/uploads', express.static('uploads'))
 app.use(logger)
 
 app.get('/', (req, res) => {
@@ -28,7 +30,7 @@ app.get('/', (req, res) => {
 
 app.use('/users', userRoutes)
 app.use('/auth', authRoutes)
-
+app.use('/categories', categoryRoutes)
 
 app.use(errorHandler)
 

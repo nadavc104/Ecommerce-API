@@ -1,28 +1,21 @@
 import multer from "multer";
-import { v4 as uuidv4 } from "uuid";
-
-const MIME_TYPE_MAP = {
-  "image/png": "png",
-  "image/jpg": "jpg",
-  "image/jpeg": "jepg",
-};
 
 const imageUpload = multer({
-  limits: 500000,
+  limits: 1024 * 1024 * 5,
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, "uploads/images");
+      cb(null, 'uploads/');
     },
     filename: (req, file, cb) => {
-      const ext = MIME_TYPE_MAP[file.mimetype];
-      cb(null, uuidv4() + "." + ext);
+      cb(null, `${Date.now()}-${file.originalname}`);
     },
   }),
   fileFilter: (req, file, cb) => {
-    const isValid = !!MIME_TYPE_MAP[file.mimetype];
-    let error = isValid ? null : new Error("Invalid mimetype");
-    cb(error, isValid);
-  },
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png' ) 
+      cb(null, true)
+
+    cb(null, false)
+  }
 });
 
 export { imageUpload };

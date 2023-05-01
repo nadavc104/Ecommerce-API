@@ -4,8 +4,7 @@ const validator = (schema) => (payload) =>
     schema.validate(payload, { abortEarly: false}) 
 
 
-const registerSchema = Joi.object({
-
+const bodySchemaRegister = Joi.object({
     username: Joi.string().alphanum().min(5).max(16).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(8).max(16).required(),
@@ -13,25 +12,20 @@ const registerSchema = Joi.object({
     lastName: Joi.string().regex(/^[a-zA-Z]+$/).required(),
     roles: Joi.array().required()
 })
-const paramsUpdateSchema = Joi.object({
-    id: Joi.string().regex(/^[0-9a-fA-F]{24}$/)
 
-})
-const bodyUpdateSchema = Joi.object({
-
+const bodySchemaUpdate = Joi.object({
     firstName: Joi.string().regex(/^[a-zA-Z]+$/).required(),
     lastName: Joi.string().regex(/^[a-zA-Z]+$/).required(),
-    roles: Joi.array().required(),
-    active: Joi.boolean().required()
+    roles: Joi.array(),
+    active: Joi.string()
 })
 
-const deleteSchema = Joi.object({
+const paramsSchema = Joi.object({
     id: Joi.string().regex(/^[0-9a-fA-F]{24}$/)
 })
 
-const validateBodyRegister = validator(registerSchema)
-const validateBodyUpdate = validator(bodyUpdateSchema)
-const validateParamsUpdate = validator(paramsUpdateSchema)
-const validateParamsDelete = validator(deleteSchema)
+const validateBodyRegister = validator(bodySchemaRegister)
+const validateParams = validator(paramsSchema)
+const validateBodyUpdate = validator(bodySchemaUpdate)
 
-export { validateBodyRegister, validateBodyUpdate, validateParamsUpdate, validateParamsDelete }
+export { validateBodyRegister, validateBodyUpdate, validateParams }
